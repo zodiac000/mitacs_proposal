@@ -1,0 +1,214 @@
+%%%%%%%%%%%%%%%%%%%%%%% file template.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is a general template file for the LaTeX package SVJour3
+% for Springer journals.          Springer Heidelberg 2010/09/16
+%
+% Copy it to a new file with a new name and use it as the basis
+% for your article. Delete % signs as needed.
+%
+% This template includes a few options for different layouts and
+% content for various journals. Please consult a previous issue of
+% your journal as needed.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% First comes an example EPS file -- just ignore it and
+% proceed on the \documentclass line
+% your LaTeX will extract the file if required
+\begin{filecontents*}{example.eps}
+%!PS-Adobe-3.0 EPSF-3.0
+%%BoundingBox: 19 19 221 221
+%%CreationDate: Mon Sep 29 1997
+%%Creator: programmed by hand (JK)
+%%EndComments
+gsave
+newpath
+  20 20 moveto
+  20 220 lineto
+  220 220 lineto
+  220 20 lineto
+closepath
+2 setlinewidth
+gsave
+  .4 setgray fill
+grestore
+stroke
+grestore
+\end{filecontents*}
+%
+\RequirePackage{fix-cm}
+%
+%\documentclass{svjour3}                     % onecolumn (standard format)
+%\documentclass[smallcondensed]{svjour3}     % onecolumn (ditto)
+\documentclass[smallextended]{svjour3}       % onecolumn (second format)
+%\documentclass[twocolumn]{svjour3}          % twocolumn
+%
+\smartqed  % flush right qed marks, e.g. at end of proof
+%
+\usepackage{graphicx}
+%
+% \usepackage{mathptmx}      % use Times fonts if available on your TeX system
+%
+% insert here the call for the packages your document requires
+%\usepackage{latexsym}
+% etc.
+%
+% please place your own definitions here and don't use \def but
+% \newcommand{}{}
+%
+% Insert the name of "your journal" with
+% \journalname{myjournal}
+%
+\begin{document}
+
+\title{Semi-supervised deep neural network solution for regression and classification on stainless metal parts in manufacturing%\thanks{Grants or other notes
+%about the article that should go on the front page should be
+%placed here. General acknowledgments should be placed at the end of the article.}
+}
+
+%\titlerunning{Short form of title}        % if too long for running head
+
+\author{Wenbin Zhang         \and
+        Jochen Lang %etc.
+}
+
+%\authorrunning{Short form of author list} % if too long for running head
+
+\institute{Wenbin Zhang\at
+              University of Ottawa \\
+              \email{wzhan133@uottawa.ca}           %  \\
+%             \emph{Present address:} of F. Author  %  if needed
+          %  \and
+          %  S. Author \at
+          %     second address
+}
+
+\date{Received: date / Accepted: date}
+% The correct dates will be entered by the editor
+
+
+\maketitle
+
+\begin{abstract}
+  Deep learning \cite{Goodfellow:2016:DL:3086952} been successful in many domain, it always gives incredible results while traditional machine learning 
+  algorithms relied on tons of knowledge base and reaching unacceptable results. However, deep learning does not perform well if there is lack of labeled data, especially in the industrial world, mannually labeling the data is time consuming and costly. The objective of my study is going to make use of the small amount of labeled dataset to generate unlimited number of unlabeled augmented data \cite{DBLP:journals/corr/abs-1805-09501} can be applied to a semi-supervised learning setting. In another word, without putting enormous afford for labeling unlabeled data, the network should be able to achieve the same accuracy as the network which having huge labeled data. Hopefully, the semi-supervised network with unlabeled augmentations can outperform the state-of-art supervised solution. In addition to build the model base on small amount of labeled data, the model should also be capable to perform correctly on the image containing polished stainless steel metal surface. The proposed semi-supervised deep learning solution will open a new window for future research, showcasing well performance can be achieved without putting great amount of afford on labeling the data.
+  
+\keywords{Deep learning \and Semi-supervised learning \and Image auto-augmentation}
+% \PACS{PACS code1 \and PACS code2 \and more}
+% \subclass{MSC code1 \and MSC code2 \and more}
+\end{abstract}
+
+\section{Introduction}
+\label{intro}
+Enclosures Direct Inc.(EDI) is a manufacturer of enclosures used to house and protect electrical and electronic devices. 
+They have developed various industrial robotics based automation cells for its fabrication process. One of those cells utilizes
+a computer vision system to guide a robot in a welding application which comprised with a laser and an industrial camera.
+The laser is combined with an optical line generator to cast a line of structured light across a weld joint. An image of the 
+structured light is captured using the camera and processed with specialized software tat was developed by the company.
+The software is designed to mathematically model the structured light in the image as a series of line equations; eventually
+it tends to find the coordinates of the intersection of the joint from the image which captured from the camera. However, 
+the system has reliability issues when the material has reflective property such as polished stainless steel or the imaged
+has been disturbed by the ambient light. Even though, under all circumstance, the image of the structured light is clear to 
+naked eyes and the location of the weld joint is obvious, the existing system failed due to the algorithm cannot analyze the
+image correctly. The company has archived data set of over 50,000 images that have been captured and stored during the 
+production process. They would like to see a more robust machine learning solution can be designed to replace the current 
+computer vision algorithm. In addition, a classification on different types of welding joints is also a desirable feature
+with the new model such as butt joint, corner joint, lap joint, tee-joint, edge joint, etc.
+
+The main challenges involved to solve this problem can be listed as below:
+\begin{itemize}
+\item Construct a suitable deep learning model to best fit the main problem which including the regression problem as finding 
+       expected coordinates from the image and the classification problem as identifying the image into corresponding 
+       category according to the type of welding seams detected from the image.
+\item Auto generating unlimited number of augmented data from existing limited dataset. 
+\item Finding the optimized solution to utilize both labeled data and unlimited number of unlabeled augmented data.
+\item Overcome the reflection affects by the stainless metal material.
+\item Propose a transfer learning and deep learning robust model that can efficiently solve the issue.
+\end{itemize}
+\section{Literature Review}
+The main challenges in this project can be divided into two major problems which is constructing a network to solve 
+image classification and logistic regression visual tasks and utilizing limited number of labeled data to work with 
+unlabeled data efficiently. Base on those two different targets, my goal would be producing a framework that can satisfy
+both of desired requirements.
+
+Image classification which can be defined as a task of categorizing images into corresponding numbers 
+of predefined classes. Predicting the coordinates of the intersection of two metal sheets can be seen
+as an image regression problem. Recently, more and more work shows that feature extraction based 
+deep learning structure is one of the best solution for image classification and logistic regression.
+According to Rawat et al.(2017) \cite{article}, deep learning models that exploit multiple layers of nonlinear 
+information processing for feature extraction and classification have been shown to overcome this
+ challenge. It extracts such high-level, abstract features from raw data. Many of these factors 
+of variation can be identified only using nearly human-level sophisticated understanding of data. A quintessential model of 
+deep learning is multi layer perceptron (MLP) \cite{Gardner_1998} which is a feedforward artificial neural network. It is a mathematical function 
+which mapping some set of data as input to expected format of output values. The function is formulated by composing numbers
+of sub functions. The idea of learning the correct representation of data provides a perspective on deep learning. 
+Another point of view about deep learning is to enable computers to learn multi-step computer programs. After executing 
+another set of instructions in parallel, each presentation layer can be considered the state of the computer's memory. 
+Networks with greater depth can execute more instructions in sequence. Sequential instructions have a strong function 
+because subsequent instructions can refer to the results of earlier instructions. According to this deep learning 
+perspective, not all information in a layer of activation necessarily encodes a variation factor that interprets the 
+input. The representation also stores state information that helps to execute programs that understand the input. 
+This status information can be similar to a counter or pointer in a conventional computer program. It has nothing 
+to do with the input, but it helps the model organize its processing. Over the past decade, there are plenty of deep learning
+models hugely influential to the development of the field. Among them, convolutional neural network(CNN) \cite{726791} \cite{NIPS2012_4824} a special 
+kind of deep neural network architecture that capable of achieving record-breaking performance using both 
+supervised learning and unsupervised learning. The convolution kernel sharing parameters and the sparseness of 
+the inter-layer connection in the hidden layer make the convolutional neural network smaller. There are large numbers 
+of powerful CNN architectures which laid the foundation of today's computer vision achievements, such as LeNet-5 \cite{DBLP:journals/corr/GuWKMSSLWW15}, 
+AlexNet \cite{Krizhevsky:2017:ICD:3098997.3065386}, VGGNet \cite{vgg}, GoogLeNet \cite{DBLP:journals/corr/SzegedyLJSRAEVR14}, ResNet \cite{DBLP:journals/corr/HeZRS15}, etc.
+
+Other than designing a proper deep learning neural network which can output multiple task results that including classification
+and regression, realizing the idea of how to learn from labeled and unlabeled data is the biggest challenge. Traditional
+classifiers usually need enough number of labeled data to train. However, in the real world, obtaining the labeled instances which 
+composed by feature and label pairs are often expensive or time-consuming. On the other hand, unlabeled data is relatively
+cheaper to collect, but having lack of usage for analyzing features. Presently consistency regularization \cite{DBLP:journals/corr/abs-1806-05594} \cite{DBLP:journals/corr/CilibertoRR16}
+one of the most successful 
+approaches which the model is trained to be robust to perturbations of its inputs and parameters. 
+
+\section{Hypothesis}
+I will be responsible for designing an auto-augmentation process to enlarge the existing dataset without labeling the extra image. Trying to utilize the consistency smoothness enforcing 
+\cite{NIPS2014_5487} \cite{DBLP:journals/corr/LaineA16} \cite{8417973} \cite{DBLP:journals/corr/abs-1809-08370} \cite{DBLP:journals/corr/TarvainenV17}  method 
+to realize semi-supervised learning in this case. 
+For the sub output of data regression for the coordinates, although, the manual labeling stage is not required, the pixel
+ updated (the value for delta of x and y) should be able to traced back while randomly translating or cropping the image in order to 
+ update the ground truth of the coordinates. The semi-supervised learning approach will enforce the smoothness of the model by utilizing unlabeled data. Minimizing the divergence metric between the prediction of original input and the input with perturbation. 
+ Creating a deep learning model that can use an image captured from the camera as the input to generate the desired coordinates. 
+ Applying deep learning method to achieve the detection of a single point coordinates from the image which
+is a gray scaled high definition (1280 * 1024) image containing a laser stripe. 
+The coordinates generated from the network should be as close as the coordinates calculated based on the 
+existing algorithm which based on computer vision algorithm. In addition, the network should be capable
+for stainless materials which caused the current algorithm failed. The desired output should including both x and y coordinates and a softmax result to indicate the category of the image. 
+
+\section{Conclusion and Justification}
+The outcome of this research project will aim to use a semi-supervised machine learning approach which will satisfy all the basic requirements to replace the existing traditional computer vision method. 
+Some new features will be added to the new model, such as welding type classification, etc. The project will provide an opportunity for the research on consistency-based semi-supervised learning
+for regression and classification. If the final goal can be achieved, the new model can save a lot of time and cost on manually labeling the data. It can become a better solution for propotion of the industry.
+
+%\begin{acknowledgements}
+%If you'd like to thank anyone, place your comments here
+%and remove the percent signs.
+%\end{acknowledgements}
+
+
+% Authors must disclose all relationships or interests that 
+% could have direct or potential influence or impart bias on 
+% the work: 
+%
+% \section*{Conflict of interest}
+%
+% The authors declare that they have no conflict of interest.
+
+
+% BibTeX users please use one of
+%\bibliographystyle{spbasic}      % basic style, author-year citations
+%\bibliographystyle{spmpsci}      % mathematics and physical sciences
+%\bibliographystyle{spphys}       % APS-like style for physics
+%\bibliography{}   % name your BibTeX data base
+
+%Sets the bibliography style to UNSRT and imports the 
+%bibliography file "samples.bib".
+\bibliographystyle{unsrt}
+\bibliography{ref}
+\end{document}
+% end of file template.tex
+
